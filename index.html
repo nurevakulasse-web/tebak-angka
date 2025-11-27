@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Tebak Angka</title>
+    <title>Math Race - Game Matematika Lengkap</title>
     <style>
         * {
             box-sizing: border-box;
@@ -15,311 +15,281 @@
         body {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
         }
         
-        .page-title {
-            font-size: 3rem;
-            margin-bottom: 30px;
-            text-align: center;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(45deg, #ff4081, #ffeb3b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: bold;
-        }
-        
-        .main-container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
         .container {
+            max-width: 1000px;
+            width: 100%;
             background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            text-align: center;
             position: relative;
-            flex: 1;
         }
         
-        .left-panel {
-            flex: 1;
-        }
-        
-        .right-panel {
-            flex: 1;
+        header {
+            text-align: center;
+            margin-bottom: 20px;
         }
         
         h1 {
-            margin-bottom: 20px;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ffeb3b, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        .description {
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            line-height: 1.5;
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
         }
         
-        .game-area {
-            margin: 25px 0;
-        }
-        
-        .input-group {
+        .menu {
             display: flex;
             justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .menu-btn {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4caf50, #2196f3);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-btn.active {
+            background: linear-gradient(135deg, #ff9800, #f44336);
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Styling untuk semua section */
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .info-box {
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .info-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .timer {
+            color: #ffeb3b;
+        }
+        
+        .score {
+            color: #4caf50;
+        }
+        
+        .game-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
             margin-bottom: 20px;
         }
         
-        input {
-            padding: 12px 15px;
-            font-size: 1.2rem;
-            width: 120px;
-            border: none;
-            border-radius: 10px 0 0 10px;
+        .question {
+            font-size: 3rem;
+            margin-bottom: 30px;
             text-align: center;
+        }
+        
+        .answer-input {
+            width: 200px;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
             background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         button {
-            padding: 12px 20px;
-            font-size: 1.2rem;
-            background-color: #ff4081;
-            color: white;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 0 10px 10px 0;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #2196f3, #0d47a1);
+            color: white;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #ff9800, #ef6c00);
+            color: white;
         }
         
         button:hover {
-            background-color: #e91e63;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
-        #feedback {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.2);
+        button:active {
+            transform: translateY(1px);
         }
         
-        .attempts {
-            margin: 15px 0;
-            font-size: 1.1rem;
-        }
-        
-        .restart-btn {
-            margin-top: 20px;
-            padding: 10px 25px;
-            background-color: #4CAF50;
-            border-radius: 10px;
-            font-size: 1rem;
-        }
-        
-        .restart-btn:hover {
-            background-color: #45a049;
-        }
-        
-        .help-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+        .feedback {
             font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .help-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-        
-        .modal h2 {
-            margin-bottom: 20px;
+            min-height: 30px;
+            margin-bottom: 10px;
             text-align: center;
         }
         
-        .instructions {
-            text-align: left;
-            line-height: 1.6;
+        .correct {
+            color: #4caf50;
         }
         
-        .instructions ol {
-            margin-left: 20px;
-            margin-bottom: 20px;
+        .incorrect {
+            color: #f44336;
         }
         
-        .instructions li {
-            margin-bottom: 10px;
-        }
-        
-        .numbers-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        .leaderboard {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
             margin-top: 20px;
+        }
+        
+        .leaderboard h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+        
+        .leaderboard-list {
+            list-style-type: none;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+        
+        .leaderboard-item:nth-child(1) {
+            background-color: rgba(255, 215, 0, 0.3);
+        }
+        
+        .leaderboard-item:nth-child(2) {
+            background-color: rgba(192, 192, 192, 0.3);
+        }
+        
+        .leaderboard-item:nth-child(3) {
+            background-color: rgba(205, 127, 50, 0.3);
+        }
+        
+        .game-over {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffeb3b;
+        }
+        
+        /* Styling untuk section mengenal angka */
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
         }
         
         .number-card {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 15px;
+            background: linear-gradient(135deg, #ff9800, #f44336);
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            transition: transform 0.3s, background-color 0.3s;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
         .number-card:hover {
             transform: scale(1.05);
-            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .number {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .number-name {
-            font-size: 0.9rem;
-        }
-        
-        /* Puzzle Game Styles - 3x4 */
-        .puzzle-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .puzzle-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 5px;
-            width: 240px;
-            height: 180px;
-        }
-        
-        .puzzle-tile {
-            background: linear-gradient(145deg, #ff6b6b, #ffa726);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            user-select: none;
-        }
-        
-        .puzzle-tile:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        .puzzle-tile.empty {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: none;
-            cursor: default;
-        }
-        
-        .puzzle-tile.empty:hover {
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .puzzle-info {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 240px;
-            margin-top: 15px;
-        }
-        
-        .puzzle-moves {
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        
-        .puzzle-timer {
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        
-        .puzzle-complete {
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            margin-top: 10px;
-            animation: pulse 1.5s infinite;
+        .number-card.playing {
+            animation: pulse 1s infinite;
         }
         
         @keyframes pulse {
@@ -328,521 +298,1135 @@
             100% { transform: scale(1); }
         }
         
-        .hidden {
-            display: none;
+        .number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
         
-        .success {
+        .number-name {
+            font-size: 1.2rem;
+        }
+        
+        .audio-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        /* Styling untuk section materi */
+        .material-content {
+            background: linear-gradient(135deg, #2196f3, #0d47a1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .material-content h3 {
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+        
+        .material-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .example {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .example-item {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Styling untuk game tebak angka */
+        .guess-input {
+            width: 100px;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .guess-history {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+        }
+        
+        .guess-item {
+            padding: 8px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+        
+        .guess-item.correct {
             background-color: rgba(76, 175, 80, 0.3);
-            color: #c8e6c9;
         }
         
-        .wrong {
-            background-color: rgba(244, 67, 54, 0.3);
-            color: #ffcdd2;
+        /* Styling untuk puzzle game */
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
         }
         
-        .hint {
-            margin-top: 15px;
-            font-style: italic;
-            color: #e1f5fe;
+        .puzzle-tile {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
         
+        .puzzle-tile:hover {
+            transform: scale(1.05);
+        }
+        
+        .puzzle-tile.empty {
+            background: transparent;
+            box-shadow: none;
+            cursor: default;
+        }
+        
+        .puzzle-tile.empty:hover {
+            transform: none;
+        }
+        
+        .puzzle-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Styling untuk petunjuk permainan */
+        .instructions {
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+        
+        .instructions p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        /* Styling untuk footer */
         .footer {
             text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            width: 100%;
-            max-width: 1200px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
         
         .developer {
             font-weight: bold;
-            color: white;
+            color: #ffeb3b;
         }
         
         @media (max-width: 768px) {
-            .main-container {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .question {
+                font-size: 2.5rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .buttons {
                 flex-direction: column;
             }
             
-            .numbers-grid {
-                grid-template-columns: repeat(4, 1fr);
+            .number-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
             
-            .page-title {
-                font-size: 2.2rem;
+            .puzzle-container {
+                width: 250px;
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .number-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .puzzle-grid {
+            .puzzle-container {
                 width: 200px;
-                height: 150px;
+                height: 200px;
+            }
+            
+            .menu-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Judul Utama Halaman -->
-    <h1 class="page-title">GAME MENGENAL ANGKA</h1>
-    
-    <div class="main-container">
-        <!-- Panel Kiri: Mengenal Angka -->
-        <div class="container left-panel">
-            <h1>Mengenal Angka</h1>
-            
-            <div class="description">
-                <p>Belajar mengenal angka 1 sampai 20</p>
-                <p>Klik pada angka untuk mendengarkan pengucapannya</p>
+    <div class="container">
+        <header>
+            <h1>Math Race</h1>
+            <p class="subtitle">Tingkatkan Kemampuan Matematika dengan Cara Menyenangkan!</p>
+        </header>
+        
+        <div class="menu">
+            <button class="menu-btn active" data-target="learn-numbers">
+                <span>🔢</span> Mengenal Angka
+            </button>
+            <button class="menu-btn" data-target="materials">
+                <span>📚</span> Materi Hitungan
+            </button>
+            <button class="menu-btn" data-target="guess-number">
+                <span>🎯</span> Tebak Angka
+            </button>
+            <button class="menu-btn" data-target="puzzle-game">
+                <span>🧩</span> Puzzle Angka
+            </button>
+            <button class="menu-btn" data-target="math-race">
+                <span>🏁</span> Math Race
+            </button>
+            <button class="menu-btn" data-target="instructions">
+                <span>❓</span> Petunjuk
+            </button>
+        </div>
+        
+        <!-- Section Mengenal Angka -->
+        <div class="content-section active" id="learn-numbers">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ffeb3b;">Mengenal Angka 1-10</h2>
+            <div class="number-grid" id="number-grid">
+                <!-- Number cards will be added here by JavaScript -->
             </div>
-            
-            <div class="numbers-grid">
-                <!-- Angka 1-20 akan di-generate oleh JavaScript -->
+            <div class="game-screen">
+                <div class="question" id="number-question">Pilih angka untuk mendengarkan pengucapannya</div>
+                <div class="buttons">
+                    <button class="start-btn" id="play-all-btn">Putar Semua Angka</button>
+                </div>
             </div>
         </div>
         
-        <!-- Panel Kanan: Tebak Angka & Puzzle -->
-        <div class="container right-panel">
-            <h1>Game Angka</h1>
+        <!-- Section Materi Hitungan -->
+        <div class="content-section" id="materials">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ffeb3b;">Materi Hitungan Dasar</h2>
             
-            <button class="help-btn" id="helpBtn">?</button>
-            
-            <!-- Game Selection -->
-            <div class="game-selection" style="margin-bottom: 20px;">
-                <button id="tebakGameBtn" class="menu-btn active" style="margin-right: 10px;">Tebak Angka</button>
-                <button id="puzzleGameBtn" class="menu-btn">Susun Puzzle</button>
-            </div>
-            
-            <!-- Tebak Angka Game -->
-            <div id="tebakGame">
-                <div class="description">
-                    <p>Saya telah memilih sebuah angka antara 1 sampai 20.</p>
-                    <p>Bisakah kamu menebak angka tersebut?</p>
-                </div>
-                
-                <div class="game-area">
-                    <div class="input-group">
-                        <input type="number" id="guessInput" min="1" max="20" placeholder="1-20">
-                        <button id="guessBtn">Tebak!</button>
-                    </div>
-                    
-                    <div id="feedback">Masukkan tebakan Anda...</div>
-                    
-                    <div class="attempts">
-                        Jumlah tebakan: <span id="attemptCount">0</span>
-                    </div>
-                    
-                    <button id="restartBtn" class="restart-btn hidden">Main Lagi</button>
-                    
-                    <div class="hint">
-                        Tips: Perhatikan petunjuk "terlalu besar" atau "terlalu kecil" untuk memperbaiki tebakan Anda!
-                    </div>
+            <div class="material-content">
+                <h3>Penjumlahan (+)</h3>
+                <p>Penjumlahan adalah menggabungkan dua bilangan atau lebih menjadi satu bilangan total.</p>
+                <p>Contoh: 2 + 3 = 5</p>
+                <div class="example">
+                    <div class="example-item">1 + 1 = 2</div>
+                    <div class="example-item">2 + 2 = 4</div>
+                    <div class="example-item">3 + 4 = 7</div>
+                    <div class="example-item">5 + 5 = 10</div>
                 </div>
             </div>
             
-            <!-- Puzzle Game -->
-            <div id="puzzleGame" class="hidden">
-                <div class="description">
-                    <p>Susun angka 1-11 dengan urutan yang benar!</p>
-                    <p>Klik angka yang berdekatan dengan kotak kosong untuk memindahkannya</p>
+            <div class="material-content">
+                <h3>Pengurangan (-)</h3>
+                <p>Pengurangan adalah mengambil sebagian dari suatu bilangan.</p>
+                <p>Contoh: 5 - 2 = 3</p>
+                <div class="example">
+                    <div class="example-item">3 - 1 = 2</div>
+                    <div class="example-item">5 - 2 = 3</div>
+                    <div class="example-item">7 - 3 = 4</div>
+                    <div class="example-item">10 - 5 = 5</div>
                 </div>
-                
-                <div class="puzzle-container">
-                    <div class="puzzle-grid" id="puzzleGrid">
-                        <!-- Puzzle tiles akan di-generate oleh JavaScript -->
-                    </div>
-                    
-                    <div class="puzzle-info">
-                        <div class="puzzle-moves">Langkah: <span id="moveCount">0</span></div>
-                        <div class="puzzle-timer">Waktu: <span id="timer">0</span>s</div>
-                    </div>
-                    
-                    <div id="puzzleComplete" class="puzzle-complete hidden">
-                        Selamat! Puzzle selesai!
-                    </div>
-                    
-                    <button id="shufflePuzzleBtn" class="restart-btn">Acak Puzzle</button>
+            </div>
+            
+            <div class="material-content">
+                <h3>Perkalian (×)</h3>
+                <p>Perkalian adalah penjumlahan berulang dari bilangan yang sama.</p>
+                <p>Contoh: 3 × 4 = 3 + 3 + 3 + 3 = 12</p>
+                <div class="example">
+                    <div class="example-item">2 × 3 = 6</div>
+                    <div class="example-item">4 × 2 = 8</div>
+                    <div class="example-item">5 × 3 = 15</div>
+                    <div class="example-item">6 × 2 = 12</div>
+                </div>
+            </div>
+            
+            <div class="material-content">
+                <h3>Pembagian (÷)</h3>
+                <p>Pembagian adalah membagi suatu bilangan menjadi beberapa bagian yang sama besar.</p>
+                <p>Contoh: 10 ÷ 2 = 5</p>
+                <div class="example">
+                    <div class="example-item">6 ÷ 2 = 3</div>
+                    <div class="example-item">8 ÷ 4 = 2</div>
+                    <div class="example-item">9 ÷ 3 = 3</div>
+                    <div class="example-item">10 ÷ 5 = 2</div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="footer">
-        <p>Dikembangkan oleh <span class="developer">Nur Eva Yanti</span></p>
-    </div>
-
-    <div class="modal" id="helpModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeModal">&times;</button>
-            <h2>Petunjuk Penggunaan Game</h2>
-            <div class="instructions">
-                <h3>Tebak Angka:</h3>
-                <ol>
-                    <li>Game akan memilih secara acak sebuah angka antara 1 sampai 20.</li>
-                    <li>Tugas Anda adalah menebak angka yang dipilih oleh game.</li>
-                    <li>Masukkan angka tebakan Anda pada kolom input yang tersedia.</li>
-                    <li>Klik tombol "Tebak!" atau tekan Enter untuk mengirim tebakan.</li>
-                    <li>Game akan memberikan petunjuk:
-                        <ul>
-                            <li><strong>"Terlalu kecil"</strong> - jika tebakan Anda lebih kecil dari angka yang dicari</li>
-                            <li><strong>"Terlalu besar"</strong> - jika tebakan Anda lebih besar dari angka yang dicari</li>
-                            <li><strong>"Selamat! Anda benar!"</strong> - jika tebakan Anda tepat</li>
-                        </ul>
-                    </li>
-                </ol>
-                
-                <h3>Susun Puzzle:</h3>
-                <ol>
-                    <li>Susun angka dari 1 sampai 11 dengan urutan yang benar</li>
-                    <li>Kotak kosong harus berada di posisi terakhir (bawah kanan)</li>
-                    <li>Klik angka yang berdekatan dengan kotak kosong untuk memindahkannya</li>
-                    <li>Game akan mencatat jumlah langkah dan waktu yang dibutuhkan</li>
-                    <li>Gunakan tombol "Acak Puzzle" untuk memulai ulang permainan</li>
-                </ol>
-                
-                <p><strong>Tips:</strong> Gunakan strategi yang tepat untuk menyelesaikan puzzle dengan langkah minimal!</p>
+        
+        <!-- Section Tebak Angka -->
+        <div class="content-section" id="guess-number">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ffeb3b;">Game Tebak Angka 1-10</h2>
+            
+            <div class="game-info">
+                <div class="info-box">
+                    <div class="info-label">Percobaan</div>
+                    <div class="info-value" id="attempts">0</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Status</div>
+                    <div class="info-value" id="guess-status">Mulai!</div>
+                </div>
             </div>
+            
+            <div class="game-screen">
+                <div class="question" id="guess-question">Saya memikirkan angka antara 1 sampai 10. Coba tebak!</div>
+                <input type="number" min="1" max="10" class="guess-input" id="guess-input" placeholder="1-10">
+                <div class="buttons">
+                    <button class="start-btn" id="guess-start">Mulai Game</button>
+                    <button class="submit-btn" id="guess-submit">Tebak</button>
+                </div>
+                
+                <div class="guess-history" id="guess-history">
+                    <!-- Riwayat tebakan akan ditampilkan di sini -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section Puzzle Game -->
+        <div class="content-section" id="puzzle-game">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ffeb3b;">Puzzle Angka 3x3</h2>
+            
+            <div class="game-info">
+                <div class="info-box">
+                    <div class="info-label">Langkah</div>
+                    <div class="info-value" id="moves">0</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Waktu</div>
+                    <div class="info-value" id="puzzle-time">0</div>
+                </div>
+            </div>
+            
+            <div class="puzzle-info">
+                <p>Susun angka secara berurutan dengan menggeser kotak kosong</p>
+            </div>
+            
+            <div class="puzzle-container" id="puzzle-container">
+                <!-- Puzzle tiles will be added here by JavaScript -->
+            </div>
+            
+            <div class="buttons">
+                <button class="start-btn" id="puzzle-start">Mulai Puzzle</button>
+                <button class="reset-btn" id="puzzle-reset">Acak Ulang</button>
+            </div>
+        </div>
+        
+        <!-- Section Math Race -->
+        <div class="content-section" id="math-race">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ffeb3b;">Math Race - Lomba Cepat Matematika</h2>
+            
+            <div class="game-info">
+                <div class="info-box">
+                    <div class="info-label">Waktu Tersisa</div>
+                    <div class="info-value timer" id="timer">30</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Skor</div>
+                    <div class="info-value score" id="score">0</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Soal</div>
+                    <div class="info-value" id="question-count">0</div>
+                </div>
+            </div>
+            
+            <div class="game-screen">
+                <div class="question" id="question">Klik Mulai untuk Bermain!</div>
+                <input type="number" class="answer-input" id="answer" placeholder="Jawaban" disabled>
+                <div class="feedback" id="feedback"></div>
+                <div class="buttons">
+                    <button class="start-btn" id="start-btn">Mulai Game</button>
+                    <button class="submit-btn" id="submit-btn" disabled>Submit</button>
+                    <button class="reset-btn" id="reset-btn">Reset</button>
+                </div>
+            </div>
+            
+            <div class="leaderboard">
+                <h2>Leaderboard</h2>
+                <ul class="leaderboard-list" id="leaderboard">
+                    <!-- Leaderboard items will be added here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Section Petunjuk Permainan -->
+        <div class="content-section" id="instructions">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ffeb3b;">Petunjuk Permainan</h2>
+            
+            <div class="instructions">
+                <h3>Mengenal Angka</h3>
+                <p>Klik pada kartu angka untuk melihat dan mendengarkan pengucapan angka 1-10 dalam bahasa Indonesia.</p>
+            </div>
+            
+            <div class="instructions">
+                <h3>Materi Hitungan</h3>
+                <p>Pelajari materi dasar matematika meliputi:</p>
+                <ul>
+                    <li><strong>Penjumlahan</strong> - Menggabungkan bilangan</li>
+                    <li><strong>Pengurangan</strong> - Mengurangi bilangan</li>
+                    <li><strong>Perkalian</strong> - Penjumlahan berulang</li>
+                    <li><strong>Pembagian</strong> - Pembagian bilangan</li>
+                </ul>
+            </div>
+            
+            <div class="instructions">
+                <h3>Tebak Angka</h3>
+                <p>Tebak angka antara 1-10 yang dipilih secara acak oleh komputer.</p>
+                <ul>
+                    <li>Klik "Mulai Game" untuk memulai</li>
+                    <li>Masukkan tebakan Anda (1-10)</li>
+                    <li>Dapatkan petunjuk apakah tebakan terlalu besar atau kecil</li>
+                    <li>Tebak dengan sesedikit mungkin percobaan</li>
+                </ul>
+            </div>
+            
+            <div class="instructions">
+                <h3>Puzzle Angka</h3>
+                <p>Susun angka 1-8 dalam kotak 3x3 secara berurutan.</p>
+                <ul>
+                    <li>Klik "Mulai Puzzle" untuk memulai</li>
+                    <li>Geser kotak yang berdekatan dengan kotak kosong</li>
+                    <li>Susun angka dari 1 sampai 8 secara berurutan</li>
+                    <li>Selesaikan dalam waktu sesingkat mungkin dengan langkah sedikit mungkin</li>
+                </ul>
+            </div>
+            
+            <div class="instructions">
+                <h3>Math Race</h3>
+                <p>Jawab soal matematika secepat mungkin dalam waktu 30 detik.</p>
+                <ul>
+                    <li>Klik "Mulai Game" untuk memulai</li>
+                    <li>Jawab soal matematika yang muncul</li>
+                    <li>Dapatkan 10 poin untuk setiap jawaban benar</li>
+                    <li>Perhatikan waktu yang tersisa</li>
+                    <li>Raih skor tertinggi dan masuk ke leaderboard!</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Dikembangkan oleh <span class="developer">Nur Eva Yanti</span></p>
         </div>
     </div>
 
     <script>
-        // Inisialisasi variabel game
-        let targetNumber;
-        let attempts;
-        let gameOver;
-        
-        // Variabel puzzle 3x4
-        let puzzleBoard = [];
-        let emptyTile = { row: 2, col: 3 }; // Posisi kotak kosong untuk 3x4
-        let moveCount = 0;
-        let timer = 0;
+        // ==================== VARIABEL GLOBAL ====================
+        // Math Race variables
+        let timer = 30;
+        let score = 0;
+        let questionCount = 0;
+        let currentQuestion = {};
         let timerInterval;
-        let isPuzzleComplete = false;
+        let gameActive = false;
         
-        // Elemen DOM
-        const guessInput = document.getElementById('guessInput');
-        const guessBtn = document.getElementById('guessBtn');
-        const feedback = document.getElementById('feedback');
-        const attemptCount = document.getElementById('attemptCount');
-        const restartBtn = document.getElementById('restartBtn');
-        const helpBtn = document.getElementById('helpBtn');
-        const helpModal = document.getElementById('helpModal');
-        const closeModal = document.getElementById('closeModal');
-        const numbersGrid = document.querySelector('.numbers-grid');
-        const tebakGameBtn = document.getElementById('tebakGameBtn');
-        const puzzleGameBtn = document.getElementById('puzzleGameBtn');
-        const tebakGame = document.getElementById('tebakGame');
-        const puzzleGame = document.getElementById('puzzleGame');
-        const puzzleGrid = document.getElementById('puzzleGrid');
-        const moveCountElement = document.getElementById('moveCount');
+        // Tebak Angka variables
+        let targetNumber = 0;
+        let attempts = 0;
+        let guessGameActive = false;
+        
+        // Puzzle variables
+        let puzzleState = [1, 2, 3, 4, 5, 6, 7, 8, 0]; // 0 represents empty tile
+        let moves = 0;
+        let puzzleTime = 0;
+        let puzzleTimer;
+        let puzzleGameActive = false;
+        
+        // Voice variables
+        let currentAudio = null;
+        let isPlayingAll = false;
+        let currentNumberIndex = 0;
+        
+        // DOM elements
         const timerElement = document.getElementById('timer');
-        const puzzleComplete = document.getElementById('puzzleComplete');
-        const shufflePuzzleBtn = document.getElementById('shufflePuzzleBtn');
+        const scoreElement = document.getElementById('score');
+        const questionCountElement = document.getElementById('question-count');
+        const questionElement = document.getElementById('question');
+        const answerElement = document.getElementById('answer');
+        const feedbackElement = document.getElementById('feedback');
+        const startBtn = document.getElementById('start-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const leaderboardElement = document.getElementById('leaderboard');
         
-        // Data angka 1-20 dalam bahasa Indonesia
-        const numbersData = [
-            { number: 1, name: "satu" },
-            { number: 2, name: "dua" },
-            { number: 3, name: "tiga" },
-            { number: 4, name: "empat" },
-            { number: 5, name: "lima" },
-            { number: 6, name: "enam" },
-            { number: 7, name: "tujuh" },
-            { number: 8, name: "delapan" },
-            { number: 9, name: "sembilan" },
-            { number: 10, name: "sepuluh" },
-            { number: 11, name: "sebelas" },
-            { number: 12, name: "dua belas" },
-            { number: 13, name: "tiga belas" },
-            { number: 14, name: "empat belas" },
-            { number: 15, name: "lima belas" },
-            { number: 16, name: "enam belas" },
-            { number: 17, name: "tujuh belas" },
-            { number: 18, name: "delapan belas" },
-            { number: 19, name: "sembilan belas" },
-            { number: 20, name: "dua puluh" }
-        ];
+        const numberGridElement = document.getElementById('number-grid');
+        const numberQuestionElement = document.getElementById('number-question');
+        const playAllBtn = document.getElementById('play-all-btn');
         
-        // Fungsi untuk memulai game baru
-        function startNewGame() {
-            targetNumber = Math.floor(Math.random() * 20) + 1;
-            attempts = 0;
-            gameOver = false;
+        const attemptsElement = document.getElementById('attempts');
+        const guessStatusElement = document.getElementById('guess-status');
+        const guessQuestionElement = document.getElementById('guess-question');
+        const guessInputElement = document.getElementById('guess-input');
+        const guessStartBtn = document.getElementById('guess-start');
+        const guessSubmitBtn = document.getElementById('guess-submit');
+        const guessHistoryElement = document.getElementById('guess-history');
+        
+        const movesElement = document.getElementById('moves');
+        const puzzleTimeElement = document.getElementById('puzzle-time');
+        const puzzleContainer = document.getElementById('puzzle-container');
+        const puzzleStartBtn = document.getElementById('puzzle-start');
+        const puzzleResetBtn = document.getElementById('puzzle-reset');
+        
+        // Menu navigation
+        const menuButtons = document.querySelectorAll('.menu-btn');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        // Initialize leaderboard from localStorage or create empty array
+        let leaderboard = JSON.parse(localStorage.getItem('mathRaceLeaderboard')) || [];
+        updateLeaderboard();
+        
+        // ==================== EVENT LISTENERS ====================
+        // Menu navigation
+        menuButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                
+                // Update active menu button
+                menuButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show target section
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Math Race event listeners
+        startBtn.addEventListener('click', startGame);
+        submitBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetGame);
+        answerElement.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+        
+        // Tebak Angka event listeners
+        guessStartBtn.addEventListener('click', startGuessGame);
+        guessSubmitBtn.addEventListener('click', checkGuess);
+        guessInputElement.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkGuess();
+            }
+        });
+        
+        // Puzzle event listeners
+        puzzleStartBtn.addEventListener('click', startPuzzleGame);
+        puzzleResetBtn.addEventListener('click', resetPuzzleGame);
+        
+        // Voice event listeners
+        playAllBtn.addEventListener('click', playAllNumbers);
+        
+        // ==================== VOICE FUNCTIONS ====================
+        // Create number cards for numbers 1-10
+        function createNumberCards() {
+            const numbers = [
+                { value: 1, name: 'Satu', audio: createAudioForNumber(1) },
+                { value: 2, name: 'Dua', audio: createAudioForNumber(2) },
+                { value: 3, name: 'Tiga', audio: createAudioForNumber(3) },
+                { value: 4, name: 'Empat', audio: createAudioForNumber(4) },
+                { value: 5, name: 'Lima', audio: createAudioForNumber(5) },
+                { value: 6, name: 'Enam', audio: createAudioForNumber(6) },
+                { value: 7, name: 'Tujuh', audio: createAudioForNumber(7) },
+                { value: 8, name: 'Delapan', audio: createAudioForNumber(8) },
+                { value: 9, name: 'Sembilan', audio: createAudioForNumber(9) },
+                { value: 10, name: 'Sepuluh', audio: createAudioForNumber(10) }
+            ];
             
-            // Reset tampilan
-            guessInput.value = '';
-            feedback.textContent = 'Masukkan tebakan Anda...';
-            feedback.className = '';
-            attemptCount.textContent = attempts;
-            restartBtn.classList.add('hidden');
-            guessInput.disabled = false;
-            guessBtn.disabled = false;
-            
-            console.log('Angka yang harus ditebak:', targetNumber);
+            numbers.forEach(number => {
+                const card = document.createElement('div');
+                card.className = 'number-card';
+                card.innerHTML = `
+                    <div class="audio-indicator">🔊</div>
+                    <div class="number">${number.value}</div>
+                    <div class="number-name">${number.name}</div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    speakNumber(number);
+                });
+                
+                numberGridElement.appendChild(card);
+            });
         }
         
-        // Fungsi untuk memproses tebakan
-        function processGuess() {
-            if (gameOver) return;
+        // Create audio element for each number
+        function createAudioForNumber(number) {
+            const audio = new Audio();
             
-            const userGuess = parseInt(guessInput.value);
+            // Generate audio using Web Speech API as fallback
+            // In a real implementation, you would use pre-recorded audio files
+            const utterance = new SpeechSynthesisUtterance(getNumberName(number));
+            utterance.lang = 'id-ID';
+            utterance.rate = 0.8;
+            utterance.pitch = 1;
             
-            // Validasi input
-            if (isNaN(userGuess) || userGuess < 1 || userGuess > 20) {
-                feedback.textContent = 'Masukkan angka antara 1 dan 20!';
-                feedback.className = 'wrong';
+            return {
+                utterance: utterance,
+                play: function() {
+                    // Try to use Web Speech API first
+                    if ('speechSynthesis' in window) {
+                        speechSynthesis.cancel(); // Stop any current speech
+                        speechSynthesis.speak(this.utterance);
+                    }
+                }
+            };
+        }
+        
+        // Get Indonesian number name
+        function getNumberName(number) {
+            const names = {
+                1: 'satu',
+                2: 'dua', 
+                3: 'tiga',
+                4: 'empat',
+                5: 'lima',
+                6: 'enam',
+                7: 'tujuh',
+                8: 'delapan',
+                9: 'sembilan',
+                10: 'sepuluh'
+            };
+            return names[number] || number.toString();
+        }
+        
+        // Function to speak the number
+        function speakNumber(number) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                speechSynthesis.cancel();
+                resetAllCards();
+            }
+            
+            // Highlight the card being played
+            const cards = document.querySelectorAll('.number-card');
+            cards[number.value - 1].classList.add('playing');
+            
+            // Update the question text
+            numberQuestionElement.textContent = `Ini adalah angka ${number.value} (${number.name})`;
+            
+            // Play audio
+            number.audio.play();
+            
+            // Set up event listener for when audio ends
+            const checkAudioEnd = setInterval(() => {
+                if (!speechSynthesis.speaking) {
+                    clearInterval(checkAudioEnd);
+                    cards[number.value - 1].classList.remove('playing');
+                    
+                    // If we're playing all numbers, play the next one
+                    if (isPlayingAll) {
+                        setTimeout(() => {
+                            playNextNumber();
+                        }, 800);
+                    }
+                }
+            }, 100);
+        }
+        
+        // Play all numbers in sequence
+        function playAllNumbers() {
+            if (isPlayingAll) return;
+            
+            isPlayingAll = true;
+            currentNumberIndex = 0;
+            playAllBtn.disabled = true;
+            numberQuestionElement.textContent = 'Mendengarkan semua angka...';
+            
+            playNextNumber();
+        }
+        
+        // Play the next number in sequence
+        function playNextNumber() {
+            if (currentNumberIndex >= 10) {
+                // Finished playing all numbers
+                isPlayingAll = false;
+                playAllBtn.disabled = false;
+                numberQuestionElement.textContent = 'Pilih angka untuk mendengarkan pengucapannya';
+                resetAllCards();
+                return;
+            }
+            
+            const numbers = [
+                { value: 1, name: 'Satu', audio: createAudioForNumber(1) },
+                { value: 2, name: 'Dua', audio: createAudioForNumber(2) },
+                { value: 3, name: 'Tiga', audio: createAudioForNumber(3) },
+                { value: 4, name: 'Empat', audio: createAudioForNumber(4) },
+                { value: 5, name: 'Lima', audio: createAudioForNumber(5) },
+                { value: 6, name: 'Enam', audio: createAudioForNumber(6) },
+                { value: 7, name: 'Tujuh', audio: createAudioForNumber(7) },
+                { value: 8, name: 'Delapan', audio: createAudioForNumber(8) },
+                { value: 9, name: 'Sembilan', audio: createAudioForNumber(9) },
+                { value: 10, name: 'Sepuluh', audio: createAudioForNumber(10) }
+            ];
+            
+            speakNumber(numbers[currentNumberIndex]);
+            currentNumberIndex++;
+        }
+        
+        // Reset all number cards to normal state
+        function resetAllCards() {
+            const cards = document.querySelectorAll('.number-card');
+            cards.forEach(card => {
+                card.classList.remove('playing');
+            });
+        }
+        
+        // ==================== MATH RACE FUNCTIONS ====================
+        // Start the game
+        function startGame() {
+            if (gameActive) return;
+            
+            gameActive = true;
+            timer = 30;
+            score = 0;
+            questionCount = 0;
+            
+            timerElement.textContent = timer;
+            scoreElement.textContent = score;
+            questionCountElement.textContent = questionCount;
+            
+            answerElement.disabled = false;
+            submitBtn.disabled = false;
+            startBtn.disabled = true;
+            
+            answerElement.focus();
+            
+            generateQuestion();
+            
+            timerInterval = setInterval(function() {
+                timer--;
+                timerElement.textContent = timer;
+                
+                if (timer <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+        
+        // Generate a random math question
+        function generateQuestion() {
+            const operations = ['+', '-', '*', '/'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            
+            let num1, num2, answer;
+            
+            switch(operation) {
+                case '+':
+                    num1 = Math.floor(Math.random() * 50) + 1;
+                    num2 = Math.floor(Math.random() * 50) + 1;
+                    answer = num1 + num2;
+                    break;
+                case '-':
+                    num1 = Math.floor(Math.random() * 50) + 1;
+                    num2 = Math.floor(Math.random() * num1) + 1;
+                    answer = num1 - num2;
+                    break;
+                case '*':
+                    num1 = Math.floor(Math.random() * 12) + 1;
+                    num2 = Math.floor(Math.random() * 12) + 1;
+                    answer = num1 * num2;
+                    break;
+                case '/':
+                    num2 = Math.floor(Math.random() * 10) + 1;
+                    answer = Math.floor(Math.random() * 10) + 1;
+                    num1 = num2 * answer;
+                    break;
+            }
+            
+            currentQuestion = {
+                num1: num1,
+                num2: num2,
+                operation: operation,
+                answer: answer
+            };
+            
+            questionElement.textContent = `${num1} ${operation} ${num2} = ?`;
+            answerElement.value = '';
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+        }
+        
+        // Check the answer
+        function checkAnswer() {
+            if (!gameActive) return;
+            
+            const userAnswer = parseInt(answerElement.value);
+            
+            if (isNaN(userAnswer)) {
+                feedbackElement.textContent = 'Masukkan angka yang valid!';
+                feedbackElement.className = 'feedback incorrect';
+                return;
+            }
+            
+            questionCount++;
+            questionCountElement.textContent = questionCount;
+            
+            if (userAnswer === currentQuestion.answer) {
+                score += 10;
+                scoreElement.textContent = score;
+                feedbackElement.textContent = 'Benar! +10 poin';
+                feedbackElement.className = 'feedback correct';
+            } else {
+                feedbackElement.textContent = `Salah! Jawaban yang benar: ${currentQuestion.answer}`;
+                feedbackElement.className = 'feedback incorrect';
+            }
+            
+            setTimeout(generateQuestion, 1000);
+        }
+        
+        // End the game
+        function endGame() {
+            clearInterval(timerInterval);
+            gameActive = false;
+            
+            answerElement.disabled = true;
+            submitBtn.disabled = true;
+            startBtn.disabled = false;
+            
+            questionElement.textContent = `Game Selesai! Skor akhir: ${score}`;
+            feedbackElement.textContent = '';
+            
+            // Add to leaderboard
+            const playerName = prompt(`Game Over! Skor Anda: ${score}\nMasukkan nama Anda untuk leaderboard:`, 'Pemain');
+            
+            if (playerName) {
+                leaderboard.push({
+                    name: playerName,
+                    score: score,
+                    date: new Date().toLocaleDateString('id-ID')
+                });
+                
+                // Sort leaderboard by score (descending)
+                leaderboard.sort((a, b) => b.score - a.score);
+                
+                // Keep only top 10 scores
+                if (leaderboard.length > 10) {
+                    leaderboard = leaderboard.slice(0, 10);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('mathRaceLeaderboard', JSON.stringify(leaderboard));
+                
+                updateLeaderboard();
+            }
+        }
+        
+        // Reset the game
+        function resetGame() {
+            clearInterval(timerInterval);
+            gameActive = false;
+            
+            timer = 30;
+            score = 0;
+            questionCount = 0;
+            
+            timerElement.textContent = timer;
+            scoreElement.textContent = score;
+            questionCountElement.textContent = questionCount;
+            
+            questionElement.textContent = 'Klik Mulai untuk Bermain!';
+            answerElement.value = '';
+            answerElement.disabled = true;
+            submitBtn.disabled = true;
+            startBtn.disabled = false;
+            
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+        }
+        
+        // Update the leaderboard display
+        function updateLeaderboard() {
+            leaderboardElement.innerHTML = '';
+            
+            if (leaderboard.length === 0) {
+                const emptyItem = document.createElement('li');
+                emptyItem.className = 'leaderboard-item';
+                emptyItem.textContent = 'Belum ada skor';
+                leaderboardElement.appendChild(emptyItem);
+                return;
+            }
+            
+            leaderboard.forEach((entry, index) => {
+                const item = document.createElement('li');
+                item.className = 'leaderboard-item';
+                
+                const rank = document.createElement('span');
+                rank.textContent = `${index + 1}. ${entry.name}`;
+                
+                const scoreInfo = document.createElement('span');
+                scoreInfo.textContent = `${entry.score} (${entry.date})`;
+                
+                item.appendChild(rank);
+                item.appendChild(scoreInfo);
+                leaderboardElement.appendChild(item);
+            });
+        }
+        
+        // ==================== TEBAK ANGKA FUNCTIONS ====================
+        // Start the guess number game
+        function startGuessGame() {
+            targetNumber = Math.floor(Math.random() * 10) + 1;
+            attempts = 0;
+            guessGameActive = true;
+            
+            attemptsElement.textContent = attempts;
+            guessStatusElement.textContent = 'Tebak angka!';
+            guessQuestionElement.textContent = 'Saya memikirkan angka antara 1 sampai 10. Coba tebak!';
+            guessInputElement.value = '';
+            guessHistoryElement.innerHTML = '';
+            
+            guessInputElement.disabled = false;
+            guessSubmitBtn.disabled = false;
+            guessStartBtn.disabled = true;
+            
+            guessInputElement.focus();
+        }
+        
+        // Check the user's guess
+        function checkGuess() {
+            if (!guessGameActive) return;
+            
+            const userGuess = parseInt(guessInputElement.value);
+            
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 10) {
+                guessStatusElement.textContent = 'Masukkan angka antara 1-10!';
                 return;
             }
             
             attempts++;
-            attemptCount.textContent = attempts;
+            attemptsElement.textContent = attempts;
             
-            // Periksa tebakan
+            const guessItem = document.createElement('div');
+            guessItem.className = 'guess-item';
+            
             if (userGuess === targetNumber) {
-                feedback.textContent = `Selamat! Anda benar! Angkanya adalah ${targetNumber}.`;
-                feedback.className = 'success';
-                gameOver = true;
-                restartBtn.classList.remove('hidden');
-            } else if (userGuess < targetNumber) {
-                feedback.textContent = 'Terlalu kecil! Coba angka yang lebih besar.';
-                feedback.className = 'wrong';
+                // Correct guess
+                guessStatusElement.textContent = 'Selamat! Tebakan Anda benar!';
+                guessQuestionElement.textContent = `Anda berhasil menebak angka ${targetNumber} dalam ${attempts} percobaan.`;
+                guessItem.textContent = `Percobaan ${attempts}: ${userGuess} - Benar!`;
+                guessItem.classList.add('correct');
+                
+                guessGameActive = false;
+                guessInputElement.disabled = true;
+                guessSubmitBtn.disabled = true;
+                guessStartBtn.disabled = false;
             } else {
-                feedback.textContent = 'Terlalu besar! Coba angka yang lebih kecil.';
-                feedback.className = 'wrong';
+                // Incorrect guess
+                const hint = userGuess < targetNumber ? 'terlalu kecil' : 'terlalu besar';
+                guessStatusElement.textContent = `Salah! Coba lagi.`;
+                guessItem.textContent = `Percobaan ${attempts}: ${userGuess} - ${hint}`;
             }
             
-            // Kosongkan input
-            guessInput.value = '';
-            guessInput.focus();
-        }
-        
-        // Fungsi untuk menampilkan modal bantuan
-        function showHelp() {
-            helpModal.style.display = 'flex';
-        }
-        
-        // Fungsi untuk menyembunyikan modal bantuan
-        function hideHelp() {
-            helpModal.style.display = 'none';
-        }
-        
-        // Fungsi untuk membuat grid angka
-        function createNumbersGrid() {
-            numbersGrid.innerHTML = '';
+            guessHistoryElement.appendChild(guessItem);
+            guessInputElement.value = '';
+            guessInputElement.focus();
             
-            numbersData.forEach(item => {
-                const numberCard = document.createElement('div');
-                numberCard.className = 'number-card';
-                numberCard.innerHTML = `
-                    <div class="number">${item.number}</div>
-                    <div class="number-name">${item.name}</div>
-                `;
+            // Scroll to bottom of history
+            guessHistoryElement.scrollTop = guessHistoryElement.scrollHeight;
+        }
+        
+        // ==================== PUZZLE FUNCTIONS ====================
+        // Start the puzzle game
+        function startPuzzleGame() {
+            if (puzzleGameActive) return;
+            
+            puzzleGameActive = true;
+            moves = 0;
+            puzzleTime = 0;
+            
+            movesElement.textContent = moves;
+            puzzleTimeElement.textContent = puzzleTime;
+            
+            shufflePuzzle();
+            renderPuzzle();
+            
+            puzzleTimer = setInterval(function() {
+                puzzleTime++;
+                puzzleTimeElement.textContent = puzzleTime;
+            }, 1000);
+            
+            puzzleStartBtn.disabled = true;
+        }
+        
+        // Reset the puzzle game
+        function resetPuzzleGame() {
+            if (!puzzleGameActive) return;
+            
+            shufflePuzzle();
+            renderPuzzle();
+            
+            moves = 0;
+            puzzleTime = 0;
+            
+            movesElement.textContent = moves;
+            puzzleTimeElement.textContent = puzzleTime;
+        }
+        
+        // Shuffle the puzzle
+        function shufflePuzzle() {
+            // Reset to solved state first
+            puzzleState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+            
+            // Perform random moves to shuffle
+            for (let i = 0; i < 100; i++) {
+                const emptyIndex = puzzleState.indexOf(0);
+                const possibleMoves = getPossibleMoves(emptyIndex);
+                const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
                 
-                numberCard.addEventListener('click', () => {
-                    // Membaca angka dengan Web Speech API
-                    speakNumber(item.number, item.name);
-                    
-                    // Efek visual saat diklik
-                    numberCard.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
-                    setTimeout(() => {
-                        numberCard.style.backgroundColor = '';
-                    }, 300);
-                });
+                // Swap empty tile with random adjacent tile
+                [puzzleState[emptyIndex], puzzleState[randomMove]] = [puzzleState[randomMove], puzzleState[emptyIndex]];
+            }
+        }
+        
+        // Get possible moves for empty tile
+        function getPossibleMoves(emptyIndex) {
+            const moves = [];
+            const row = Math.floor(emptyIndex / 3);
+            const col = emptyIndex % 3;
+            
+            // Check up
+            if (row > 0) moves.push(emptyIndex - 3);
+            // Check down
+            if (row < 2) moves.push(emptyIndex + 3);
+            // Check left
+            if (col > 0) moves.push(emptyIndex - 1);
+            // Check right
+            if (col < 2) moves.push(emptyIndex + 1);
+            
+            return moves;
+        }
+        
+        // Render the puzzle
+        function renderPuzzle() {
+            puzzleContainer.innerHTML = '';
+            
+            puzzleState.forEach((value, index) => {
+                const tile = document.createElement('div');
+                tile.className = value === 0 ? 'puzzle-tile empty' : 'puzzle-tile';
+                tile.textContent = value === 0 ? '' : value;
+                tile.dataset.index = index;
                 
-                numbersGrid.appendChild(numberCard);
+                if (value !== 0) {
+                    tile.addEventListener('click', handleTileClick);
+                }
+                
+                puzzleContainer.appendChild(tile);
             });
         }
         
-        // Fungsi untuk membaca angka
-        function speakNumber(number, name) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance();
-                utterance.text = `${number} - ${name}`;
-                utterance.lang = 'id-ID';
-                utterance.rate = 0.8;
+        // Handle tile click
+        function handleTileClick(event) {
+            if (!puzzleGameActive) return;
+            
+            const clickedIndex = parseInt(event.target.dataset.index);
+            const emptyIndex = puzzleState.indexOf(0);
+            const possibleMoves = getPossibleMoves(emptyIndex);
+            
+            if (possibleMoves.includes(clickedIndex)) {
+                // Swap tiles
+                [puzzleState[emptyIndex], puzzleState[clickedIndex]] = [puzzleState[clickedIndex], puzzleState[emptyIndex]];
                 
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert(`Angka ${number} - ${name}`);
-            }
-        }
-        
-        // Fungsi untuk game puzzle 3x4
-        function initializePuzzle() {
-            // Inisialisasi board puzzle 3x4
-            puzzleBoard = [];
-            let numbers = Array.from({length: 11}, (_, i) => i + 1); // Angka 1-11
-            
-            // Acak urutan angka
-            for (let i = numbers.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-            }
-            
-            // Isi board dengan angka yang diacak
-            let index = 0;
-            for (let row = 0; row < 3; row++) {
-                puzzleBoard[row] = [];
-                for (let col = 0; col < 4; col++) {
-                    if (row === 2 && col === 3) {
-                        puzzleBoard[row][col] = 0; // Kotak kosong
-                    } else {
-                        puzzleBoard[row][col] = numbers[index++];
-                    }
-                }
-            }
-            
-            emptyTile = { row: 2, col: 3 };
-            moveCount = 0;
-            timer = 0;
-            isPuzzleComplete = false;
-            
-            updatePuzzleDisplay();
-            updatePuzzleInfo();
-            
-            // Hentikan timer sebelumnya dan mulai yang baru
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                if (!isPuzzleComplete) {
-                    timer++;
-                    timerElement.textContent = timer;
-                }
-            }, 1000);
-            
-            puzzleComplete.classList.add('hidden');
-        }
-        
-        function updatePuzzleDisplay() {
-            puzzleGrid.innerHTML = '';
-            
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 4; col++) {
-                    const tileValue = puzzleBoard[row][col];
-                    const tile = document.createElement('div');
-                    tile.className = 'puzzle-tile';
-                    
-                    if (tileValue === 0) {
-                        tile.classList.add('empty');
-                        tile.textContent = '';
-                    } else {
-                        tile.textContent = tileValue;
-                        
-                        // Tambahkan event listener untuk tile yang bisa diklik
-                        tile.addEventListener('click', () => {
-                            if (!isPuzzleComplete) {
-                                moveTile(row, col);
-                            }
-                        });
-                    }
-                    
-                    puzzleGrid.appendChild(tile);
-                }
-            }
-        }
-        
-        function moveTile(row, col) {
-            // Cek apakah tile bisa dipindah (berdekatan dengan kotak kosong)
-            if (
-                (Math.abs(row - emptyTile.row) === 1 && col === emptyTile.col) ||
-                (Math.abs(col - emptyTile.col) === 1 && row === emptyTile.row)
-            ) {
-                // Tukar posisi tile dengan kotak kosong
-                puzzleBoard[emptyTile.row][emptyTile.col] = puzzleBoard[row][col];
-                puzzleBoard[row][col] = 0;
-                emptyTile = { row, col };
+                moves++;
+                movesElement.textContent = moves;
                 
-                moveCount++;
-                updatePuzzleInfo();
-                updatePuzzleDisplay();
+                renderPuzzle();
                 
-                // Cek apakah puzzle sudah selesai
-                checkPuzzleComplete();
-            }
-        }
-        
-        function checkPuzzleComplete() {
-            let expectedValue = 1;
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 4; col++) {
-                    // Skip kotak kosong di posisi terakhir
-                    if (row === 2 && col === 3) continue;
+                // Check if puzzle is solved
+                if (isPuzzleSolved()) {
+                    clearInterval(puzzleTimer);
+                    puzzleGameActive = false;
+                    puzzleStartBtn.disabled = false;
                     
-                    if (puzzleBoard[row][col] !== expectedValue) {
-                        return false;
-                    }
-                    expectedValue++;
+                    setTimeout(() => {
+                        alert(`Selamat! Anda menyelesaikan puzzle dalam ${moves} langkah dan ${puzzleTime} detik!`);
+                    }, 300);
                 }
             }
-            
-            // Puzzle selesai
-            isPuzzleComplete = true;
-            clearInterval(timerInterval);
-            puzzleComplete.classList.remove('hidden');
-            return true;
         }
         
-        function updatePuzzleInfo() {
-            moveCountElement.textContent = moveCount;
-            timerElement.textContent = timer;
+        // Check if puzzle is solved
+        function isPuzzleSolved() {
+            for (let i = 0; i < 8; i++) {
+                if (puzzleState[i] !== i + 1) {
+                    return false;
+                }
+            }
+            return puzzleState[8] === 0;
         }
         
-        // Fungsi untuk mengganti game
-        function switchGame(game) {
-            // Reset semua tombol menu
-            tebakGameBtn.classList.remove('active');
-            puzzleGameBtn.classList.remove('active');
-            
-            // Sembunyikan semua game
-            tebakGame.classList.add('hidden');
-            puzzleGame.classList.add('hidden');
-            
-            // Tampilkan game yang dipilih
-            if (game === 'tebak') {
-                tebakGameBtn.classList.add('active');
-                tebakGame.classList.remove('hidden');
-            } else if (game === 'puzzle') {
-                puzzleGameBtn.classList.add('active');
-                puzzleGame.classList.remove('hidden');
-                initializePuzzle();
-            }
+        // ==================== INITIALIZATION ====================
+        // Initialize the app
+        function init() {
+            createNumberCards();
         }
         
-        // Event listener untuk tombol tebak
-        guessBtn.addEventListener('click', processGuess);
-        
-        // Event listener untuk tombol enter
-        guessInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                processGuess();
-            }
-        });
-        
-        // Event listener untuk tombol restart
-        restartBtn.addEventListener('click', startNewGame);
-        
-        // Event listener untuk tombol bantuan
-        helpBtn.addEventListener('click', showHelp);
-        
-        // Event listener untuk tombol tutup modal
-        closeModal.addEventListener('click', hideHelp);
-        
-        // Event listener untuk tombol game
-        tebakGameBtn.addEventListener('click', () => switchGame('tebak'));
-        puzzleGameBtn.addEventListener('click', () => switchGame('puzzle'));
-        shufflePuzzleBtn.addEventListener('click', initializePuzzle);
-        
-        // Tutup modal jika klik di luar konten modal
-        window.addEventListener('click', function(event) {
-            if (event.target === helpModal) {
-                hideHelp();
-            }
-        });
-        
-        // Mulai game pertama kali
-        startNewGame();
-        createNumbersGrid();
-        initializePuzzle();
+        // Run initialization when page loads
+        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
